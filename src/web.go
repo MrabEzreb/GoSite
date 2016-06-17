@@ -13,6 +13,15 @@ type Page struct {
 	Body []byte
 }
 
+type Dep struct {
+    Body []byte
+    Type string
+}
+
+func give404(w http.ResponseWriter) {
+    fmt.Fprintf(w, "%s", "<html><head><title>Error 404</title></head><body><h1>404</h1><h3>This page could not be found.</h3></body></html>")
+}
+
 func loadPage(section string, title string, extension string) (*Page, error) {
 	if extension == "" {
 		extension = "html"
@@ -32,69 +41,100 @@ func loadPage(section string, title string, extension string) (*Page, error) {
 func pubViewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/public/"):]
 	var p *Page
+    var err error
 	if len(title) < 2 {
-		p, _ = loadPage("root", "public", "")
+		p, err = loadPage("root", "public", "")
 	} else {
-		p, _ = loadPage("public", title, "")
+		p, err = loadPage("public", title, "")
 	}
-	fmt.Fprintf(w, "%s", p.Body)
+    if err != nil {
+        give404(w)
+    } else {
+	   fmt.Fprintf(w, "%s", p.Body)
+    }
 }
 
 func rozViewHandler(w http.ResponseWriter, r *http.Request) {
-        title := r.URL.Path[len("/rozzie/"):]
-        var p *Page
-        if len(title) < 2 {
-                p, _ = loadPage("root", "rozzie", "")
-        } else {
-                p, _ = loadPage("rozzie", title, "")
-        }
+    title := r.URL.Path[len("/rozzie/"):]
+    var p *Page
+    var err error
+    if len(title) < 2 {
+            p, err = loadPage("root", "rozzie", "")
+    } else {
+            p, err = loadPage("rozzie", title, "")
+    }
+    if err != nil {
+        give404(w)
+    } else {
         fmt.Fprintf(w, "%s", p.Body)
+    }
 }
 
 func rootViewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/"):]
-        var p *Page
-        if len(title) < 2 {
-		p, _ = loadPage("root", "root", "")
-        } else {
-		if strings.HasSuffix(title, ".html") {
-			p, _ = loadPage("root", title, "")
-		} else {
-			log.Println(title)
-			p, _ = loadPage("root", strings.Split(title, ".")[0], strings.Split(title, ".")[1])
-		}
-        }
+    var p *Page
+    var err error
+    if len(title) < 2 {
+    p, err = loadPage("root", "root", "")
+    } else {
+    if strings.HasSuffix(title, ".html") {
+        p, err = loadPage("root", title, "")
+    } else {
+        log.Println(title)
+        p, err = loadPage("root", strings.Split(title, ".")[0], strings.Split(title, ".")[1])
+    }
+    }
+    if err != nil {
+        give404(w)
+    } else {
         fmt.Fprintf(w, "%s", p.Body)
-        fmt.Println(p.Body)
+        //fmt.Println(p.Body)
+    }
 }
 
-func loadDep(path string) ([]byte, error) {
-	body, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+func loadCSS(name string) (*Dep, error) {
+    p, err := loadPage("deps/css", name, "css")
+    if err != nil {
+        return nil, err
+    }
+    return &Dep{Body: p.Body, Type: "text/css"}, nil
 }
 
-func depViewHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/dep/"):]
-	if strings.HasPrefix(title, "treant") {
-		dep := title[len("treant/"):]
-		if strings.HasPrefix(dep, "css") {
-			d, _ := loadDep("deps/treant-js-master/Treant.css")
-			fmt.Fprintf(w, "%s", d)
-		}
-		if strings.HasPrefix(dep, "js") {
-			d, _ := loadDep("deps/treant-js-master/Treant.js")
-			fmt.Fprintf(w, "%s", d)
-		}
-	}
+func loadJS(name string) (*Dep, error) {
+    p, err := loadPage("deps/js", name, "js")
+    if err != nil {
+        return nil, err
+    }
+    return &Dep{Body: p.Body, Type: "application/javascript"}, nil
+}
+
+func depCSSHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/dep/css/"):]
+    d, err := loadCSS(title)
+    if err != nil {
+        give404(w)
+    } else {
+        w.Header().Set("Content-Type", d.Type);
+        fmt.Fprintf(w, "%s", d.Body)
+    }
+}
+
+func depJSHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/dep/css/"):]
+    d, err := loadCSS(title)
+    if err != nil {
+        give404(w)
+    } else {
+        w.Header().Set("Content-Type", d.Type);
+        fmt.Fprintf(w, "%s", d.Body)
+    }
 }
 
 func main() {
 	http.HandleFunc("/public/", pubViewHandler)
 	http.HandleFunc("/rozzie/", rozViewHandler)
-	http.HandleFunc("/dep/", depViewHandler)
+	http.HandleFunc("/dep/css/", depCSSHandler)
+	http.HandleFunc("/dep/js/", depJSHandler)
 	http.HandleFunc("/", rootViewHandler)
 	fmt.Println(http.ListenAndServe(":4769", nil))
 }
