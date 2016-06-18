@@ -101,7 +101,7 @@ func loadCSS(name string) (*Dep, error) {
 }
 
 func loadJS(name string) (*Dep, error) {
-    p, err := loadPage("deps/js", nstrings.TrimSuffix(name, ".js"), "js")
+    p, err := loadPage("deps/js", strings.TrimSuffix(name, ".js"), "js")
     if err != nil {
         return nil, err
     }
@@ -109,7 +109,7 @@ func loadJS(name string) (*Dep, error) {
 }
 
 func loadIMG(name string) (*Dep, error) {
-    p, err := loadPage("deps/img", nstrings.TrimSuffix(name, ".png"), "png")
+    p, err := loadPage("deps/img", strings.TrimSuffix(name, ".png"), "png")
     if err != nil {
         return nil, err
     }
