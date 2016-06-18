@@ -1,0 +1,8 @@
+#!/bin/bash
+LOGFILE="/home/mkezreb/GoSite/logs/$(date)"
+touch "$LOGFILE"
+echo "Logging to logs/$date" | tee "$LOGFILE"
+git pull origin master > "$LOGFILE"
+./updateWeb.sh > "$LOGFILE"
+./compile.sh > "$LOGFILE"
+echo "Upgrade complete" | tee "$LOGFILE"
