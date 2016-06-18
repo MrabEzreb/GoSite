@@ -31,7 +31,7 @@ function addClickHandlers() {
 }
 
 function whenResized() {
-    $("#right").css("width", ($(window).width()-$("#left").outerWidth())-(($(window).width()-$("#left").outerWidth())-266)).css("height", $("#right").width()-24).css("left", $("#left").outerWidth()+10).css("top", "29px");
+    $("#right").css("width", ($(window).width()-$("#left").outerWidth())-(($(window).width()-$("#left").outerWidth())-266)).css("height", $("#right").width()-24).css("left", $("#left").outerWidth()+10).css("top", "60px");
     $("#leftbg").css("width", $("#left").outerWidth()).css("height", $("#left").outerHeight()).css("margin", $("#left").css("margin"));
     $("#rightTitle").css("left", $("#left").outerWidth()+10);
 }
