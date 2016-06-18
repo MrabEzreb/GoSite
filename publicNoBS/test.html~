@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="generator" content=
+    "HTML Tidy for HTML5 for Linux version 5.3.1">
+    <meta charset="utf-8">
+    <title></title><!-- stylesheets -->
+    <link rel="stylesheet" href="/Treant.css">
+    <script id="helloscr" src="/jquery_min.js"></script>
+  </head>
+  <body onload="starttre();">
+    <h2>Site Tree</h2>
+    <div id="tree-simple" style="width:800px; height: 300px">
+      
+    </div>
+    <script>
+      var sheet = $('<style></style>')
+      $('head').append(sheet)
+      sheet.load("/Treant.css")
+      function starttre() {
+        config = {
+            container: "#tree-simple"
+        };
+  
+        parent_node = {
+            text: { name: "Parent node" }
+        };
+   
+        first_child = {
+            parent: parent_node,
+            text: { name: "First child" }
+        };
+  
+        second_child = {
+            parent: parent_node,
+            text: { name: "Second child" }
+        };
+  
+        simple_chart_config = [
+            config, parent_node,
+            first_child, second_child
+        ];
+        var my_chart = new Treant(simple_chart_config);
+      }
+    </script>
+    <script src="/raphael.js">
+    </script> 
+    <script src="/Treant.js">
+    </script>
+    <h3>Here you can see a map of the site!</h3>
+  </body>
+</html>

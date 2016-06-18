@@ -101,7 +101,7 @@ func rootViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadCSS(name string) (*Dep, error) {
-    p, err := loadPage("deps/css", strings.TrimSuffix(name, ".css"), "css")
+    p, err := loadPage("dep/css", strings.TrimSuffix(name, ".css"), "css")
     if err != nil {
         return nil, err
     }
@@ -109,7 +109,7 @@ func loadCSS(name string) (*Dep, error) {
 }
 
 func loadJS(name string) (*Dep, error) {
-    p, err := loadPage("deps/js", strings.TrimSuffix(name, ".js"), "js")
+    p, err := loadPage("dep/js", strings.TrimSuffix(name, ".js"), "js")
     if err != nil {
         return nil, err
     }
@@ -117,7 +117,7 @@ func loadJS(name string) (*Dep, error) {
 }
 
 func loadIMG(name string) (*Dep, error) {
-    p, err := loadPage("deps/img", strings.TrimSuffix(name, ".png"), "png")
+    p, err := loadPage("dep/img", strings.TrimSuffix(name, ".png"), "png")
     if err != nil {
         return nil, err
     }
