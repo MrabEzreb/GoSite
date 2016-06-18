@@ -93,7 +93,7 @@ func rootViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadCSS(name string) (*Dep, error) {
-    p, err := loadPage("deps/css", name, "css")
+    p, err := loadPage("deps/css", strings.TrimSuffix(name, ".css"), "css")
     if err != nil {
         return nil, err
     }
@@ -101,11 +101,19 @@ func loadCSS(name string) (*Dep, error) {
 }
 
 func loadJS(name string) (*Dep, error) {
-    p, err := loadPage("deps/js", name, "js")
+    p, err := loadPage("deps/js", nstrings.TrimSuffix(name, ".js"), "js")
     if err != nil {
         return nil, err
     }
     return &Dep{Body: p.Body, Type: "application/javascript"}, nil
+}
+
+func loadIMG(name string) (*Dep, error) {
+    p, err := loadPage("deps/img", nstrings.TrimSuffix(name, ".png"), "png")
+    if err != nil {
+        return nil, err
+    }
+    return &Dep{Body: p.Body, Type: "image/png"}, nil
 }
 
 func depCSSHandler(w http.ResponseWriter, r *http.Request) {
@@ -130,11 +138,23 @@ func depJSHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
+func depIMGHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/dep/img/"):]
+    d, err := loadIMG(title)
+    if err != nil {
+        give404(w)
+    } else {
+        w.Header().Set("Content-Type", d.Type);
+        fmt.Fprintf(w, "%s", d.Body)
+    }
+}
+
 func main() {
 	http.HandleFunc("/public/", pubViewHandler)
 	http.HandleFunc("/rozzie/", rozViewHandler)
 	http.HandleFunc("/dep/css/", depCSSHandler)
 	http.HandleFunc("/dep/js/", depJSHandler)
+	http.HandleFunc("/dep/img/", depIMGHandler)
 	http.HandleFunc("/", rootViewHandler)
 	fmt.Println(http.ListenAndServe(":4769", nil))
 }
