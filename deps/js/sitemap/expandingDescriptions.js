@@ -2,7 +2,8 @@ $(document).ready(function () {
 //    $(".expandArrow").width("1em");
 //    $(".expandArrow").height("1em");
     whenResized();
-    loadPageDetails("/root/sitemap");
+    loadPageDetails("/sitemap");
+    addClickHandlers();
 //    $(".expandArrow").click(function() {
 //        expandArrow($(this));
 //    });
@@ -19,7 +20,13 @@ function loadPageDetails(referencing) {
         description = $(data).filter('meta[name=description]').attr("content");
         /*<style>a { text-decoration: none; }</style><a href=\""+referencing+"\"></a><h3>"+title+"</h3>*/
         $("#right").contents().find("body").html("<p>"+description+"</p>");
-        $("#rightTitle").html(title);
+        $("#rightTitle").html("<a href=\""+referencing+"\">"+title+"</a>");
+    });
+}
+
+function addClickHandlers() {
+    $(".refPage").click(function() {
+        loadPageDetails($(this).attr("refPage"));
     });
 }
 

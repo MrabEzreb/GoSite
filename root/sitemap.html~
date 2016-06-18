@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <title>Sitemap</title>
+        <meta name="description" content="Click on a page to view the title and description for that link.">
+        <link rel="stylesheet" href="/dep/css/sitemap.css" type="text/css">
+        <script src="/dep/js/jquery/jquery.js"></script>
+        <script src="/dep/js/jquery/jquery.rotate.js"></script>
+        <script src="/dep/js/sitemap/expandingDescriptions.js"></script>
+    </head>
+    <body>
+<!--        <h3>Sitemap</h3>-->
+<!--
+        <button id="buttonAction">hello</button>
+        <button id="buttonAction2">hello2</button>
+-->
+        <p id="rightTitle"></p>
+        <iframe id="right"></iframe>
+        <div id="leftbg"></div>
+        <dl id="left">
+            <li id="leftc"><span class="refPage" refPage="/">/</span>
+                <ul>
+                    <li><span class="refPage" refPage="/public">/public</span>
+                        <ul>
+                            <li>
+                                <span class="refPage" refPage="/public/hello">/public/hello</span> <!--<img class="expandArrow" id="public-hello" refPage="/public/hello" src="/deps/img/arrow1.png">-->
+                            </li>
+                        </ul>
+                    </li>
+                    <li><span class="refPage" refPage="/sitemap">/sitemap</span>
+                        <ul>
+                            <!--<li>
+                                <span class="refPage" refPage="/sitemap/start">/sitemap/start</span>
+                            </li>-->
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </dl>
+<!--
+        <table>
+            <tr>
+                <td>
+                    <span>/</span>
+                    <table class="th1">
+                        <tr>
+                            <td>
+                                <span>/public</span>
+                                <table class="th1">
+                                    <tr>
+                                        <td>
+                                            <span>/public/hello</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>/sitemap</span>
+                                <table class="th1">
+                                    <tr>
+                                        <td>
+                                            <span>/public/hello</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table>
+            <thead>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        /
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    /public
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                /hello
+                                            </td>
+                                            <td>
+                                                /pubkey
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    /sitemap
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                /hello
+                                            </td>
+                                            <td>
+                                                /pubkey
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+-->
+    </body>
+</html>

@@ -25,6 +25,8 @@ func give404(w http.ResponseWriter) {
 func loadPage(section string, title string, extension string) (*Page, error) {
 	if extension == "" {
 		extension = "html"
+	} else if extension == " " {
+		extension = ""
 	}
 	if len(section) != 0 {
 		section = section + "/"
@@ -77,12 +79,18 @@ func rootViewHandler(w http.ResponseWriter, r *http.Request) {
     if len(title) < 2 {
     p, err = loadPage("root", "root", "")
     } else {
-    if strings.HasSuffix(title, ".html") {
-        p, err = loadPage("root", title, "")
-    } else {
-        log.Println(title)
-        p, err = loadPage("root", strings.Split(title, ".")[0], strings.Split(title, ".")[1])
-    }
+        if strings.HasSuffix(title, ".html") {
+            p, err = loadPage("root", title, " ")
+        } else if strings.Contains(title, ".") {
+            log.Println(title)
+            p, err = loadPage("root", title, " ")
+	} else {
+            p, err = loadPage("root", title, "html")
+	}
+    // else {
+//        log.Println(title)
+//        p, err = loadPage("root", strings.Split(title, ".")[0], strings.Split(title, ".")[1])
+    //}
     }
     if err != nil {
         give404(w)
@@ -128,8 +136,8 @@ func depCSSHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func depJSHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/dep/css/"):]
-    d, err := loadCSS(title)
+    title := r.URL.Path[len("/dep/js/"):]
+    d, err := loadJS(title)
     if err != nil {
         give404(w)
     } else {
@@ -152,8 +160,8 @@ func depIMGHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/public/", pubViewHandler)
 	http.HandleFunc("/rozzie/", rozViewHandler)
-	http.HandleFunc("/dep/css/", depCSSHandler)
 	http.HandleFunc("/dep/js/", depJSHandler)
+	http.HandleFunc("/dep/css/", depCSSHandler)
 	http.HandleFunc("/dep/img/", depIMGHandler)
 	http.HandleFunc("/", rootViewHandler)
 	fmt.Println(http.ListenAndServe(":4769", nil))
