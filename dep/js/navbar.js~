@@ -25,7 +25,7 @@ function drop(name, navElements) {
 
 var siteName = "MrabEzreb's Site";
 
-var account = [button("THIS IS WIP", "#"), button("Login", "/account/login"), button("Signup", "/account/signup")];
+var account = [button("WIP", "#"), button("Login", "/account/login"), button("Signup", "/account/signup")];
 
 var mainNav = [button("Home", "/")];
 var mainNavR = [drop("Account", account)];

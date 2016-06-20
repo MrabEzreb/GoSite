@@ -11,7 +11,6 @@
         <navbar array="main" arrayR="main" active="/public/bootstrap1"></navbar>
         <div class="jumbotron">
             <h1>Baby's First Bootstrap</h1>
-            <p>This is the first bootstrap page that I have made in a loooooong time :D</p>
         </div>
 <!--
         <nav class="navbar navbar-default">
